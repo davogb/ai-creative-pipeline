@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "ai-test"
+version = "1.0"
+description = "'An application for demonstrating your skills in AI'"
+authors = ["Rockstar"]
+packages = [
+    { include = "app" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+llama-cpp-python = "^0.2.11"
+transformers = "^4.36.0"
+torch = "^2.1.0"
+protobuf = "^4.25.1"  # Alternative to sentencepiece
+python-magic = "^0.4.27"
+python-magic-bin = "^0.4.14"
+openfabric-pysdk = "^0.2.9"
+python-dotenv = "^1.0.0"
+flask = ">=2.0.1,<3.0.0"
+pillow = "^11.2.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^5.2"
+
+[[tool.poetry.source]]
+name = "node2"
+url = "https://repo.node2.openfabric.network/index"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api" 
