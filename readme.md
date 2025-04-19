@@ -1,198 +1,208 @@
-# 🚀 The AI Developer Challenge
+# AI Creative Pipeline
 
-### Make Something Insanely Great
+An intelligent end-to-end pipeline that transforms text descriptions into 3D models using local LLM and Openfabric.
 
-Welcome. This isn't just a coding task. This is a mission. A calling for the bold and curious—those who dare to think
-differently. If you're ready to build something magical, something powerful, something _insanely great_—read on.
+## 📋 Table of Contents
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [Testing](#testing)
+- [API Documentation](#api-documentation)
+- [Troubleshooting](#troubleshooting)
 
----
+## 🔧 Requirements
 
-## 🌟 The Vision
+- Python 3.9 or higher
+- 8GB RAM minimum (16GB recommended)
+- 10GB free disk space
+- Windows 10/11, Linux, or macOS
 
-Imagine this:  
-A user types a simple idea —
+### Required Software
+- Git
+- Python 3.9+
+- pip (Python package manager)
 
-> "Make me a glowing dragon standing on a cliff at sunset."
+## 📥 Installation
 
-And your app...
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/davogb/ai-creative-pipeline.git
+   cd ai-creative-pipeline
+   ```
 
-- Understands the request using a local LLM.
-- Generates stunning visuals from text.
-- Transforms that image into an interactive 3D model.
-- Remembers it. Forever.
+2. **Set Up Python Environment**
+   ```bash
+   # Create virtual environment
+   python -m venv venv
 
-You're not building an app. You're building **a creative partner**.
+   # Activate virtual environment
+   # On Windows:
+   venv\Scripts\activate
+   # On Linux/macOS:
+   source venv/bin/activate
+   ```
 
----
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## 🎯 The Mission
+4. **Download Required Model**
+   - Download the LLaMA model from [HuggingFace](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF)
+   - Place the downloaded file in the `models/` directory
+   - Rename it to `llama-2-7b-chat.gguf`
 
-Create an intelligent, end-to-end pipeline powered by Openfabric and a locally hosted LLM:
+## ⚙️ Configuration
 
-### Step 1: Understand the User
+1. **Create Environment File**
+   Create a `.env` file in the root directory:
+   ```env
+   MAX_STORAGE_DAYS=30
+   MAX_STORAGE_SIZE_MB=1000
+   MAX_REQUESTS_PER_MINUTE=10
+   ```
 
-Use a local LLM like **DeepSeek** or **Llama** to:
+2. **Configure App IDs**
+   The application uses two Openfabric apps:
+   - Text to Image App ID: `f0997a01-d6d3-a5fe-53d8-561300318557`
+   - Image to 3D App ID: `69543f29-4d41-4afc-7f29-3d51591f11eb`
 
-- Interpret prompts
-- Expand them creatively
-- Drive meaningful, artistic input into the generation process
+## 🚀 Running the Application
 
-### Step 2: Bring Ideas to Life
+1. **Start the Server**
+   ```bash
+   # Make sure you're in the project root directory
+   python -m app.main
+   ```
 
-Chain two Openfabric apps together:
+2. **Verify the Server is Running**
+   - Open your browser and navigate to: `http://localhost:8888/swagger-ui/`
+   - You should see the Swagger UI interface
 
-- **Text to Image**  
-  App ID: `f0997a01-d6d3-a5fe-53d8-561300318557`  
-  [View on Openfabric](https://openfabric.network/app/view/f0997a01-d6d3-a5fe-53d8-561300318557)
+3. **Make a Test Request**
+   Using curl:
+   ```bash
+   curl -X POST "http://localhost:8888/execution" \
+        -H "Content-Type: application/json" \
+        -d '{"prompt": "dragon on mountain"}'
+   ```
 
-- **Image to 3D**  
-  App ID: `69543f29-4d41-4afc-7f29-3d51591f11eb`  
-  [View on Openfabric](https://openfabric.network/app/view/69543f29-4d41-4afc-7f29-3d51591f11eb)
+   Or using the Swagger UI:
+   1. Navigate to `http://localhost:8888/swagger-ui/`
+   2. Click on POST /execution
+   3. Click "Try it out"
+   4. Enter your prompt
+   5. Click "Execute"
 
-Use their **manifest** and **schema** dynamically to structure requests.
+## 🧪 Testing
 
-### Step 3: Remember Everything
+1. **Run All Tests**
+   ```bash
+   pytest tests/
+   ```
 
-Build memory like it matters.
+2. **Run Specific Test Categories**
+   ```bash
+   # Run LLM tests only
+   pytest tests/test_llm.py
 
-- 🧠 **Short-Term**: Session context during a single interaction
-- 💾 **Long-Term**: Persistence across sessions using SQLite, Redis, or flat files  
-  Let the AI recall things like:
+   # Run API tests only
+   pytest tests/test_api.py
 
-> "Generate a new robot like the one I created last Thursday — but this time, with wings."
+   # Run mock tests only
+   pytest tests/test_mock.py
+   ```
 
----
+## 📚 API Documentation
 
-## 🛠 The Pipeline
+### Main Endpoint: POST /execution
 
-User Prompt
-↓
-Local LLM (DeepSeek or LLaMA)
-↓
-Text-to-Image App (Openfabric)
-↓
-Image Output
-↓
-Image-to-3D App (Openfabric)
-↓
-3D Model Output
-
-Simple. Elegant. Powerful.
-
----
-
-## 📦 Deliverables
-
-What we expect:
-
-- ✅ Fully working Python project
-- ✅ `README.md` with clear instructions
-- ✅ Prompt → Image → 3D working example
-- ✅ Logs or screenshots
-- ✅ Memory functionality (clearly explained)
-
----
-
-## 🧠 What We're Really Testing
-
-- Your grasp of the **Openfabric SDK** (`Stub`, `Remote`, `schema`, `manifest`)
-- Your **creativity** in prompt-to-image generation
-- Your **engineering intuition** with LLMs
-- Your ability to manage **context and memory**
-- Your **attention to quality** — code, comments, and clarity
-
----
-
-## 🚀 Bonus Points
-
-- 🎨 Visual GUI with Streamlit or Gradio
-- 🔍 FAISS/ChromaDB for memory similarity
-- 🗂 Local browser to explore generated 3D assets
-- 🎤 Voice-to-text interaction
-
----
-
-## ✨ Example Experience
-
-Prompt:
-
-> "Design a cyberpunk city skyline at night."
-
-→ LLM expands into vivid, textured visual descriptions  
-→ Text-to-Image App renders a cityscape  
-→ Image-to-3D app converts it into depth-aware 3D  
-→ The system remembers the request for remixing later
-
-That's not automation. That's imagination at scale.
-
----
-
-## 💡 Where to start
-
-You'll find the project structure set, the entrypoint is in `main.py` file.
-
-```python
-############################################################
-# Execution callback function
-############################################################
-def execute(model: AppModel) -> None:
-    """
-    Main execution entry point for handling a model pass.
-
-    Args:
-        model (AppModel): The model object containing request and response structures.
-    """
-
-    # Retrieve input
-    request: InputClass = model.request
-
-    # Retrieve user config
-    user_config: ConfigClass = configurations.get('super-user', None)
-    logging.info(f"{configurations}")
-
-    # Initialize the Stub with app IDs
-    app_ids = user_config.app_ids if user_config else []
-    stub = Stub(app_ids)
-
-    # ------------------------------
-    # TODO : add your magic here
-    # ------------------------------
-
-
-
-    # Prepare response
-    response: OutputClass = model.response
-    response.message = f"Echo: {request.prompt}"
+**Request Format:**
+```json
+{
+    "prompt": "string"
+}
 ```
 
-## How to start
+**Success Response:**
+```json
+{
+    "status": "success",
+    "original_prompt": "dragon on mountain",
+    "expanded_prompt": "A majestic dragon perched...",
+    "image_path": "/path/to/image.png",
+    "model_path": "/path/to/model.glb"
+}
+```
 
-The application can be executed in two different ways:
+**Error Response:**
+```json
+{
+    "status": "error",
+    "error": "Error message"
+}
+```
 
-- locally by running the `start.sh`
-- on in a docker container using `Dockerfile`
+## ❗ Troubleshooting
 
-If all is fine you should be able to access the application on `http://localhost:8888/swagger-ui/#/App/post_execution` and see the following screen:
+### Common Issues
 
-![Swagger UI](./swagger-ui.png)
+1. **LLM Not Loading**
+   ```
+   Error: Failed to initialize LLM
+   ```
+   Solution:
+   - Verify model file exists in models/ directory
+   - Check model filename matches configuration
+   - Ensure sufficient RAM is available
 
-## Ground Rules
+2. **Storage Issues**
+   ```
+   Error: Failed to save generation
+   ```
+   Solution:
+   - Check disk space
+   - Verify write permissions in app/datastore
+   - Run cleanup script: `python scripts/cleanup.py`
 
-Step up with any arsenal (read: libraries or packages) you believe in, but remember:
+3. **Rate Limiting**
+   ```
+   Error: Rate limit exceeded
+   ```
+   Solution:
+   - Wait for rate limit to reset (1 minute)
+   - Adjust MAX_REQUESTS_PER_MINUTE in .env
 
-- 👎 External services like chatGPT are off-limits. Stand on your own.
-- 👎 Plagiarism is for the weak. Forge your own path.
-- 👎 A broken app equals failure. Non-negotiable.
+### Getting Help
 
-## This Is It
+If you encounter issues:
+1. Check the logs in `app/logs/`
+2. Verify all requirements are met
+3. Ensure configuration is correct
+4. Check GitHub issues for similar problems
 
-We're not just evaluating a project; we're judging your potential to revolutionize our
-landscape. A half-baked app won't cut it.
+## 📊 System Requirements
 
-We're zeroing in on:
+### Minimum Requirements
+- CPU: 4 cores
+- RAM: 8GB
+- Storage: 10GB free space
+- Python: 3.9+
 
-- 👍 Exceptional documentation.
-- 👍 Code that speaks volumes.
-- 👍 Inventiveness that dazzles.
-- 👍 A problem-solving beast.
-- 👍 Unwavering adherence to the brief
+### Recommended Requirements
+- CPU: 8 cores
+- RAM: 16GB
+- Storage: 20GB free space
+- Python: 3.11+
+
+## 🔒 Security Notes
+
+1. Never share your .env file
+2. Keep model files secure
+3. Monitor rate limits
+4. Regular security updates
+
+## 📝 License
+
+MIT License - See LICENSE file for details
